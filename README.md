@@ -1,11 +1,11 @@
-##  _______    _______   _______     _________    ____________    ____________    _____________        ______
-## |       |  |       | |       |        |       |               |            |         |             /      \
-## |       |  |       | |       |        |       |               |            |         |            /
-## |_______|  |_______| |       |        |       |               |                      |             \       
-## |          | \       |       |        |       |---------      |                      |              ----     
-## |          |  \      |       |        |       |               |                      |             /    
-## |          |   \     |       |        |       |               |            |         |             \         
-## |          |    \    |_______|  |_____|       |____________   |____________|         |              \_____/   
+  _______    _______   _______     _________    ____________    ____________    _____________        ______
+ |       |  |       | |       |        |       |               |            |         |             /      \
+ |       |  |       | |       |        |       |               |            |         |            /
+ |_______|  |_______| |       |        |       |               |                      |             \       
+ |          | \       |       |        |       |---------      |                      |              ----     
+ |          |  \      |       |        |       |               |                      |             /    
+ |          |   \     |       |        |       |               |            |         |             \         
+ |          |    \    |_______|  |_____|       |____________   |____________|         |              \_____/   
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -47,6 +47,7 @@
     8) When JavaScript is switched off or unavailable, the user should still have access to all form fields and payment information. For example, the “Other” text field in the "Job Role" menu should be visible on the page when JavaScript is switched off, and all information for Bitcoin, Paypal or Credit Card payments should be visible.
 ```
 ##Exceeds Expectations Requirements:
+
 ```
     1) Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
     2) Program at least one of your error messages so that more information is provided depending on the error. For example, if the user hasn’t entered a credit card number and the field is completely blank, the error message reads “Please enter a credit card number.” If the field isn’t empty but contains only 10 numbers, the error message reads “Please enter a number that is between 13 and 16 digits long.”
