@@ -25,15 +25,24 @@ $(document).ready(() => {
         }
     });
     
-    //shirt
+    //shirt choice - show only available shirt colors for the chosen theme/design
     $('#design').click((elem) => {
+        //get the chosen design
         let selectedDesign = $('#design').val();
-        console.log(selectedDesign);
+        //if they choose js puns - then show the js puns only shirt colors and make sure one of the options is shown in the selection box
         if ( selectedDesign === "js puns") {
             $('#color option').hide();
             $('#color option:contains("JS Puns")').show();
+            $('#color').find('option[value="cornflowerblue"]').prop('selected', 'selected');
+            //if they choose i heart js - then show the i heart js only shirt colors and make sure one of the options is shown in the selection box
+        } else if (selectedDesign === 'heart js') {
+            $('#color option').hide();
+            $('#color option').not(':contains("JS Puns")').show();
+            $('#color').find('option[value="tomato"]').prop('selected', 'selected');
+        //if they choose nothing or change back to the generic select theme - then show all the options and make sure the first option is shown as selected in the box
         } else {
-            
+            $('#color option').show();
+            $('#color').find('option[value="cornflowerblue"]').prop('selected', 'selected');
         }
     });
     
