@@ -32,12 +32,16 @@ $(document).ready(() => {
     });
     
     
-    //////////////////////////////////STEP THREE//////////////////////////////////
+    //////////////////////////////////STEP THREE + EXCEEDS STEP ONE//////////////////////////////////
     //Adding classes to match the colors to the theme - adding based on what is in the () in case extra colors are added
     $('#color option:contains("JS Puns")').addClass('jsPuns');
     $('#color option').not(':contains("JS Puns")').addClass('iheart');
+    //Hide the color label and select menu until a theme is chosen
+    $('#colors-js-puns').hide();
     //shirt choice - show only available shirt colors for the chosen theme/design
     $('#design').click((elem) => {
+        //show the color label and menu
+        $('#colors-js-puns').show();
         //get the chosen design
         let selectedDesign = $('#design').val();
         //hide all to start
@@ -56,6 +60,8 @@ $(document).ready(() => {
             });
             //if they choose i heart js - then show the i heart js only shirt colors and make sure one of the options is shown in the selection box
         } else if (selectedDesign === 'heart js') {
+            //show the color label and menu
+            $('#colors-js-puns').show();
             //show the matching colors
             $('.iheart').show();
             //remove the placeholder option
@@ -68,15 +74,17 @@ $(document).ready(() => {
             });
         //if they choose nothing or change back to the generic select theme - then hide all color options again and show the prompt choice in the selection box
         } else {
-            //show the placeholder option
-            $('#color option[value="select"]').show();
-            //make sure the placeholder is selected
-            $('#color option[value="select"]').prop('selected', 'selected')
-            //if the placeholder value isnt there then add it back in
-            if ($('#color option').first().attr('value') != 'select') {
-                $('#color').prepend('<option value="select"><--- Please Select a Theme</option>');
-                $('#color').find('option[value="select"]').prop('selected', 'selected');
-            }
+            //Hide the color label and select menu until a theme is chosen
+            $('#colors-js-puns').hide();
+            // //show the placeholder option
+            // $('#color option[value="select"]').show();
+            // //make sure the placeholder is selected
+            // $('#color option[value="select"]').prop('selected', 'selected')
+            // //if the placeholder value isnt there then add it back in
+            // if ($('#color option').first().attr('value') != 'select') {
+            //     $('#color').prepend('<option value="select"><--- Please Select a Theme</option>');
+            //     $('#color').find('option[value="select"]').prop('selected', 'selected');
+            // }
         }
     });
     
