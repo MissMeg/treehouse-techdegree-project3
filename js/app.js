@@ -40,10 +40,10 @@ $(document).ready(() => {
     $('#design').click((elem) => {
         //get the chosen design
         let selectedDesign = $('#design').val();
+        //hide all to start
+        $('#color option').hide();
         //if they choose js puns - then show the js puns only shirt colors and make sure one of the options is shown in the selection box
         if ( selectedDesign === "js puns") {
-            //hide all options to start
-            $('#color option').hide();
             //remove the placeholder option
             $('#color option[value="select]').remove();
             //show the matching colors
@@ -56,8 +56,6 @@ $(document).ready(() => {
             });
             //if they choose i heart js - then show the i heart js only shirt colors and make sure one of the options is shown in the selection box
         } else if (selectedDesign === 'heart js') {
-            //hide all to start
-            $('#color option').hide();
             //show the matching colors
             $('.iheart').show();
             //remove the placeholder option
@@ -70,8 +68,6 @@ $(document).ready(() => {
             });
         //if they choose nothing or change back to the generic select theme - then hide all color options again and show the prompt choice in the selection box
         } else {
-            //hide all to start
-            $('#color option').hide();
             //show the placeholder option
             $('#color option[value="select"]').show();
             //make sure the placeholder is selected
@@ -83,5 +79,7 @@ $(document).ready(() => {
             }
         }
     });
+    
+    //////////////////////////////////STEP FOUR//////////////////////////////////
     
 });
