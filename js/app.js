@@ -72,19 +72,10 @@ $(document).ready(() => {
             $('#color option').not(':contains("JS Puns")').each(function(){
                 $(this).html($(this).html().split(" (")[0]);
             });
-        //if they choose nothing or change back to the generic select theme - then hide all color options again and show the prompt choice in the selection box
+        //if they change back to the generic select theme - then hide the color menu again
         } else {
             //Hide the color label and select menu until a theme is chosen
             $('#colors-js-puns').hide();
-            // //show the placeholder option
-            // $('#color option[value="select"]').show();
-            // //make sure the placeholder is selected
-            // $('#color option[value="select"]').prop('selected', 'selected')
-            // //if the placeholder value isnt there then add it back in
-            // if ($('#color option').first().attr('value') != 'select') {
-            //     $('#color').prepend('<option value="select"><--- Please Select a Theme</option>');
-            //     $('#color').find('option[value="select"]').prop('selected', 'selected');
-            // }
         }
     });
     
