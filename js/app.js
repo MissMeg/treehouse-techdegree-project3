@@ -81,4 +81,83 @@ $(document).ready(() => {
     
     //////////////////////////////////STEP FOUR//////////////////////////////////
     
+    //Create Sum/Total price for the chosen events - update on each change
+    $('.activities').change(() => {
+        //start and return the sum to zero
+        let sum = 0;
+        $('.activities input').each((index, element) => {
+            //only add up the checked items for the total
+            if ( $(element).prop('checked')) {
+                //grab the text
+                let text = $(element).parent().text();
+                //split the text to include only the price - add it to the sum for each checked item
+                sum += parseInt(text.split('$')[1]);
+            }
+        });
+        //remove previous total
+        $('#total').remove();
+        //add in current total
+        $('.activities').append(`<p id="total">Total: $${sum}`);
+        //if nothing is selected or total is zero then remove the total
+        if ( sum === 0) {
+            $('#total').remove();
+        }
+    });
+    
+    //Create an array of all events on the page - this way if more events are added the functionality will still work
+    let events = [];
+    //iterate through the inputs and put their labels into the array to check dates against
+    $('.activities input').each((index, element) => {
+        let text = $(element).parent().text();
+        events.push(text);
+    });
+    
+    //disable function
+    const disablePair = (date, text) => {
+        //filter out for the matching dates
+        let filter = events.filter(event => event.indexOf(date) >= 0 && event.indexOf(text) <0);
+        //if there is a pair or more -> set disabled and change text color to grey
+        if (filter.length >= 1) {
+            $(`.activities label:contains(${date})`).each((index, element) => {
+                let checkText = $(element).text();
+                if ( checkText != text) {
+                    $(`.activities label:contains(${checkText})`).css('color', 'grey').children().prop('disabled', true);
+                }
+            });
+        }
+    }
+    
+    //enable function
+    const enablePair = (date, text) => {
+        //filter out for the matching dates
+        let filter = events.filter(event => event.indexOf(date) >= 0);
+        //if there are matching dates
+        if (filter.length >= 2) {
+            //check if any of the matches are checked - if not, then enable any pairs
+            if (!$(`.activities label:contains(${date})`).not(`:contains(${text})`).children().prop('checked')){
+                 $(`.activities label:contains(${date})`).css('color', '#000').children().prop('disabled', false);
+            }
+        }
+    }
+    
+    //watch for changes on the checkboxes
+    $('.activities').change(() => {
+        //test all of the items for which are checked or not checked against the enable and disabled functions
+        $('.activities input').each((index, element) => {
+            //get the label text
+            let text = $(element).parent().text();
+            //split for the date and price section
+            let subString = text.split("—")[1];
+            //split for the date & time
+            let subDateString = subString.split(',')[0];
+            //if item is checked -> see if it has a pair to be disabled
+            if ( $(element).prop('checked')) {
+                disablePair(subDateString, text);
+            //if item is not checked, then see if a pair needs to be reenabled
+            } else {
+                enablePair(subDateString, text);
+            }
+        });
+    });
+    
 });
