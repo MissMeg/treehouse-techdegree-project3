@@ -160,4 +160,34 @@ $(document).ready(() => {
         });
     });
     
+    //////////////////////////////////STEP FIVE//////////////////////////////////
+    
+    //adding classes to the other payment option divs to make them easier to work with
+    $('#credit-card').next().addClass('paypal');
+    $('#credit-card').next().next().addClass('bitcoin');
+    //hide payment divs until payment preference is chosen
+    $('.paypal').hide();
+    $('.bitcoin').hide();
+    //show credit card for default
+    $('#credit-card').show();
+    $('#payment option[value="credit card"]').prop('selected', true);
+    
+    //check to see what is selected and show matching payment div
+    $('#payment').click((event) => {
+        //get the selected option
+        let selected = $('#payment option:selected').text();
+        //hide all in case they change payment options
+        $('.paypal').hide();
+        $('#credit-card').hide();
+        $('.bitcoin').hide();
+        //show the selected preference
+        if ( selected === "Credit Card" ) {
+            $('#credit-card').show();
+        } else if ( selected === "PayPal" ) {
+            $('.paypal').show();
+        } else if ( selected === "Bitcoin" ) {
+            $('.bitcoin').show();
+        }
+    });
+    
 });
