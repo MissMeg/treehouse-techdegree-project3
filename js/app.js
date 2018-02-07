@@ -13,21 +13,20 @@ $(document).ready(() => {
     
     //////////////////////////////////STEP TWO//////////////////////////////////
     //Job Role - create text field if other is chosen
-    $('#title').click((elem) => {
+    //THIS REQUEST IS CONFUSING SINCE YOU HAVE TO CREATE IT DYNAMICALLY, BUT THEN IN STEP 8 IT STATES THAT THE FIELD NEEDS TO BE SHOWN EVEN WITHOUT JS - SHOW ADDING THE FIELD IN THE HTML INSTEAD AND HIDING/SHOWING HERE
+   //HIDE THE FIELD TO START -- STEP 7
+   $('#other-title').hide();
+   $('#title').click((elem) => {
         //get selec ted job value
         let selectedJob = $('#title').val();
-        //check if the other text input field is already visible
-        if( $('#other-title').attr('type') != 'text') {
-            //if it is not visible append the html for the input
-            if (selectedJob === 'other') {
-                $('form fieldset').first().append('<input type="text" id="other-title" name="other_job" placeholder="Your Job Role">');
-            }
+        //if it is not visible append the html for the input -- UPDATED TO SHOW FOR STEP 8
+        if (selectedJob === 'other') {
+            $('#other-title').show();
+        }
         //if the field is currently visible - check to make sure job role is still other
-        } else {
-            //if the job role is not other - remove the unnecessary input field
-            if (selectedJob != 'other') {
-                $('#other-title').remove();
-            }
+        else {
+            //if the job role is not other - remove the unnecessary input field -- UPDATED TO HIDE FOR STEP 8
+            $('#other-title').hide();
         }
     });
     
@@ -171,6 +170,8 @@ $(document).ready(() => {
     //show credit card for default
     $('#credit-card').show();
     $('#payment option[value="credit card"]').prop('selected', true);
+    //hide "select payment" option if credit card is shown on default per requirements (seems unecessary to leave it)
+    $('#payment option[value="select_method"]').hide();
     
     //check to see what is selected and show matching payment div
     $('#payment').click((event) => {
@@ -190,4 +191,196 @@ $(document).ready(() => {
         }
     });
     
+    //////////////////STEP SIX + EXCEEDS STEP TWO AND THREE/////////////////////
+    
+    //validate name function
+    const validateName = () => {
+        //remove any previous error messages
+        $('.nameVal').remove();
+        //get the input value for the name
+        let nameVal = $('#name').val();
+        //if it is empty - tell user to input name and disabled the submit button
+        if ( nameVal === "") {
+            $('#name').css('border-color', 'red').attr('placeholder', 'Please Enter Your Name');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        //if the input is a number and not a name - place an error message and disabled button
+        } else if ( !isNaN(nameVal) ) {
+            $('#name').css('border-color', 'red');
+            $('#name').after('<p class="nameVal">Please enter a name using letters.</p>');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        //if the value is text then make sure the border is the correct color and make button accessible
+        } else if ( isNaN(nameVal) ) {
+            $('#name').css('border-color', '#5e97b0');
+            $('button').prop('disabled', false).css('cursor', 'default');
+        }
+    }
+    
+    //check the name after a key is pressed and if they tab out or move to another section
+    $('#name').keyup(validateName).focusout(validateName);
+    
+    //validate email function
+    const validateEmail = () => {
+        //remove any previous error messages
+        $('.emailVal').remove();
+        //get the email input value
+        let emailVal = $('#mail').val();
+        //regex to test against - found on StackOverflow
+        let test = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+        //if nothing is entered - let use know they need to enter an email
+        if( emailVal === '') {
+            $('#mail').css('border-color', 'red').attr('placeholder', 'Please Enter Your Email');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+        //if the email is valid - form submission is possible and field returns to normal state
+        else if ( test.test(emailVal) ) {
+            $('#mail').css('border-color', '#5e97b0');
+            $('button').prop('disabled', false).css('cursor', 'default');
+        //if email is not valid - form cannot be submitted and user is informed to enter a valid email
+        } else if ( !test.test(emailVal) ){
+            $('#mail').css('border-color', 'red');
+            $('#mail').after('<p class="emailVal">Please enter a valid email.</p>');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    
+    $('#mail').keyup(validateEmail).focusout(validateEmail);
+    
+    //must choose at least one event validation
+    const validateEvents = () => {
+        //remove any previous error messages
+        $('.eventsVal').remove();
+        //create a list of checked events
+        let checkedEvents = [];
+        //add checked events items to the array
+        $('.activities input:checked').each(() => {
+            checkedEvents.push($(this).text());
+        });
+        //if there are no checked events, then inform user to chose and event and turn the title red
+        if (checkedEvents.length < 1) {
+            $('.activities legend').css('color', 'red');
+            $('.activities').after('<p class="eventsVal">Please choose at least one event.</p>');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        //if more than one events is chosen, then remove error messages and make sure the colors stay the same
+        } else {
+            $('button').prop('disabled', false).css('cursor', 'default');
+            $('.activities legend').css('color', '#184f68');
+        }
+    }
+    //call validation on change
+    $('.activities').change(() => {
+        validateEvents();
+    });
+    
+    //credit card validation
+    //credit card number - must be numbers - must be between 13 & 16 numbers long
+    const validateCC = () => {
+        //remove any previous error messages
+        $('.ccVal').remove();
+        //reset the field back to normal
+        $('#cc-num').css('border-color', '#5e97b0');
+        //make the button accessible
+        $('button').prop('disabled', false).css('cursor', 'default');
+        //get the credit card number value
+        let ccVal = $('#cc-num').val();
+        //if the input is only numbers then check the length
+        if (!isNaN(ccVal) && ccVal != ''){
+            //split the numbers to get an array and check the length
+            let numbers = ccVal.split('');
+            //if the length is not correct, then let the user know
+            if ( numbers.length < 13 || numbers.length > 16) {
+                $('#cc-num').css('border-color', 'red');
+                $('#cc-num').after(`<p class="ccVal">Credit Card must have at least 13 numbers and no more than 16 numbers.</p>`);
+                $('button').prop('disabled', true).css('cursor', 'not-allowed');
+            }
+        //if the input is not a number, then let the user know
+        } else if (ccVal === '') {
+            $('#cc-num').css('border-color', 'red');
+            $('#cc-num').after(`<p class="ccVal">Please enter a credit card number.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        } else {
+            $('#cc-num').css('border-color', 'red');
+            $('#cc-num').after(`<p class="ccVal">Please enter only numbers.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    //call the validate function
+    $('#cc-num').keyup(validateCC).focusout(validateCC);
+    
+    //zipcode - must be a number - must be 5 numbers long
+    const validateZip = () => {
+        //remove any previous error messages
+        $('.zipVal').remove();
+        //reset the field back to normal
+        $('#zip').css('border-color', '#5e97b0');
+        //make the button accessible
+        $('button').prop('disabled', false).css('cursor', 'default');
+        //get the zip code value
+        let zipVal = $('#zip').val();
+        //if the input is only numbers then check the length
+        if (!isNaN(zipVal) && zipVal != ''){
+            //split the numbers to get an array and check the length
+            let numbers = zipVal.split('');
+            //if the length is not correct, then let the user know
+            if ( numbers.length != 5) {
+                $('#zip').css('border-color', 'red');
+                $('#zip').after(`<p class="zipVal">Zip Code must be 5 numbers long.</p>`);
+                $('button').prop('disabled', true).css('cursor', 'not-allowed');
+            }
+        //if the input is not a number, then let the user know
+        } else if (zipVal === ''){
+            $('#zip').css('border-color', 'red');
+            $('#zip').after(`<p class="zipVal">Please enter a zip code.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        } else {
+            $('#zip').css('border-color', 'red');
+            $('#zip').after(`<p class="zipVal">Please enter only numbers.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    //call the validate function
+    $('#zip').keyup(validateZip).focusout(validateZip);
+    
+    //cvv - must be a number - must be 3 numbers long
+    const validateCVV = () => {
+        //remove any previous error messages
+        $('.cvvVal').remove();
+        //reset the field back to normal
+        $('#cvv').css('border-color', '#5e97b0');
+        //make the button accessible
+        $('button').prop('disabled', false).css('cursor', 'default');
+        //get the zip code value
+        let cvvVal = $('#cvv').val();
+        //if the input is only numbers then check the length
+        if (!isNaN(cvvVal) && cvvVal != ''){
+            //split the numbers to get an array and check the length
+            let numbers = cvvVal.split('');
+            //if the length is not correct, then let the user know
+            if ( numbers.length != 3) {
+                $('#cvv').css('border-color', 'red');
+                $('#cvv').after(`<p class="cvvVal">CVV must be 3 numbers long.</p>`);
+                $('button').prop('disabled', true).css('cursor', 'not-allowed');
+            }
+        //if the input is not a number, then let the user know
+        } else if (cvvVal === ''){
+            $('#cvv').css('border-color', 'red');
+            $('#cvv').after(`<p class="cvvVal">Please enter a CVV.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        } else {
+            $('#cvv').css('border-color', 'red');
+            $('#cvv').after(`<p class="cvvVal">Please enter only numbers.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    //call the validate function
+    $('#cvv').keyup(validateCVV).focusout(validateCVV);
+    
+    //EXTRA - Check all validation types on form submit - make sure everything required is there before submitting
+    $('button').click(() => {
+        validateName();
+        validateEmail();
+        validateEvents();
+        validateCC();
+        validateZip();
+        validateCVV();
+    });
 });
