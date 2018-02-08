@@ -16,7 +16,7 @@ $(document).ready(() => {
     //THIS REQUEST IS CONFUSING SINCE YOU HAVE TO CREATE IT DYNAMICALLY, BUT THEN IN STEP 8 IT STATES THAT THE FIELD NEEDS TO BE SHOWN EVEN WITHOUT JS - SHOW ADDING THE FIELD IN THE HTML INSTEAD AND HIDING/SHOWING HERE
    //HIDE THE FIELD TO START -- STEP 7
    $('#other-title').hide();
-   $('#title').click((elem) => {
+   $('#title').change((elem) => {
         //get selec ted job value
         let selectedJob = $('#title').val();
         //if it is not visible append the html for the input -- UPDATED TO SHOW FOR STEP 8
@@ -38,7 +38,7 @@ $(document).ready(() => {
     //Hide the color label and select menu until a theme is chosen
     $('#colors-js-puns').hide();
     //shirt choice - show only available shirt colors for the chosen theme/design
-    $('#design').click((elem) => {
+    $('#design').change((elem) => {
         //show the color label and menu
         $('#colors-js-puns').show();
         //get the chosen design
@@ -174,7 +174,7 @@ $(document).ready(() => {
     $('#payment option[value="select_method"]').hide();
     
     //check to see what is selected and show matching payment div
-    $('#payment').click((event) => {
+    $('#payment').change((event) => {
         //get the selected option
         let selected = $('#payment option:selected').text();
         //hide all in case they change payment options
@@ -379,8 +379,11 @@ $(document).ready(() => {
         validateName();
         validateEmail();
         validateEvents();
-        validateCC();
-        validateZip();
-        validateCVV();
+        let selected = $('#payment option:selected').text();
+        if (selected === "Credit Card" ) {
+            validateCC();
+            validateZip();
+            validateCVV();
+        }
     });
 });
